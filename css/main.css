@@ -54,9 +54,16 @@ main {
   color: white;
   bottom: 90px;
   right: 40px;
-  border: 1px solid rgb(228, 79, 10);
-  background-color: rgb(228, 79, 10);
+  border: 1px solid var(--button-carrot);
+  background-color: var(--button-carrot);
   padding: 10px 13px 10px 13px;
   border-radius: 20px;
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.write-btn:hover {
+  background-color: var(--button-hover);
+  border: 1px solid var(--button-hover);
 }
