@@ -11,20 +11,19 @@ body {
 }
 
 .media-info-msg {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
   display: flex;
   justify-content: center;
-  align-self: center;
-  opacity: 0;
+  align-items: center;
   background-color: blueviolet;
 }
 
-@media screen and (max-width: 380px) {
+@media screen and (max-width: 500px) {
   .media-info-msg {
-    opacity: 1;
+    display: none;
   }
 }
