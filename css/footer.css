@@ -31,6 +31,22 @@ footer {
   transform: scale(0.8);
 }
 
+@keyframes icons-moving {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
 .footer-icons__img {
   width: 20px;
+}
+
+.footer-icons:hover {
+  animation: 2s icons-moving;
 }
