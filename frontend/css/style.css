@@ -27,7 +27,7 @@ body {
   background-color: blueviolet;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 700px) {
   .media-info-msg {
     display: none;
   }
