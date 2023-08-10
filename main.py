@@ -57,7 +57,25 @@ async def get_image(item_id):
     image_bytes = cur.execute(f"""
                               select image from items where id = {item_id}
                               """).fetchone()[0]
-    return Response(content = bytes.fromhex(image_bytes))
+    return Response(content = bytes.fromhex(image_bytes),media_type='image/*')
+
+@app.post('/signup')
+def signup(id:Annotated[str,Form()],
+           password:Annotated[str,Form()],
+           name:Annotated[str,Form()],
+           email:Annotated[str,Form()]):
+    
+    cur.execute(f"""
+                insert into users(id,name,email,password)
+                values('{id}','{name}','{email}','{password}')
+                """)
+    con.commit()
+    return '200'
+    
+    
+    print(id,password)
+    return '200'
+
 
 
 app.mount("/", StaticFiles(directory="frontend",html=True),name="frontend")
