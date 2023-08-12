@@ -1,4 +1,4 @@
-from fastapi import FastAPI,UploadFile,Form,Response
+from fastapi import FastAPI,UploadFile,Form,Response,Depends
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
 from fastapi.staticfiles import StaticFiles
@@ -28,11 +28,15 @@ SECRET = 'super-coding'
 manager = LoginManager(SECRET,'/login')
 
 @manager.user_loader() # 쿼리 유저 할때 로그인 메니저가 키를 같이 조회한다.
-def query_user(id):
+def query_user(data):
+    WHERE_STATEMENTS = f'id ="{data}"'
+    if type(data) == dict : 
+        WHERE_STATEMENTS = f'''id = "{data["id"]}"'''
+        
     con.row_factory = sqlite3.Row
     cur=con.cursor()
     user = cur.execute(f""" 
-                       select * from users where id = '{id}'
+                       select * from users where {WHERE_STATEMENTS}
                        """).fetchone()
     return user
 
@@ -47,10 +51,11 @@ def login(
         raise InvalidCredentialsException
     
     access_token = manager.create_access_token(data={
+        'sub': {
          'id':user['id'],
         'name':user['name'],
         'email':user['email']
-       
+       }
     })
     return {'access_token':access_token}
 
@@ -90,7 +95,7 @@ async def create_item(image:UploadFile,
     return '200'
 
 @app.get('/items')
-async def get_itmes():
+async def get_itmes(user=Depends(manager)):
     con.row_factory = sqlite3.Row
     # 컬럼명도 같이 가져옴
     cur=con.cursor()
